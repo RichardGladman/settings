@@ -1,8 +1,6 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
-#pragma once
-
 #include <map>
 #include <string>
 #include <iostream>
