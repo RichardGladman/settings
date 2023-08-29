@@ -1,7 +1,14 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.27)
 
 project(settings)
 
-add_executable(settings main.cpp)
+add_subdirectory(src)
 
-install(TARGETS settings RUNTIME DESTINATION bin)
+install(FILES include/setting.h include/settings.h DESTINATION ${CMAKE_INSTALL_PREFIX}/include/${CMAKE_PROJECT_NAME})
+
+install(TARGETS ${CMAKE_PROJECT_NAME}_lib EXPORT export_${CMAKE_PROJECT_NAME} DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/${CMAKE_PROJECT_NAME})
+
+install(EXPORT export_${CMAKE_PROJECT_NAME}
+        FILE ${CMAKE_PROJECT_NAME}-config.cmake
+        NAMESPACE ${CMAKE_PROJECT_NAME}::
+        DESTINATION ${CMAKE_INSTALL_PREFIX}/lib/${CMAKE_PROJECT_NAME})
