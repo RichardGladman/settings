@@ -6,10 +6,11 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <pwd.h>
+#include <unistd.h>
+#include <filesystem>
 
 #include <setting.h>
-
-const std::string SETTINGS_FILE {"Settings.cfg"};
 
 class Settings
 {
@@ -17,6 +18,7 @@ class Settings
 
 public:
     Settings() = default;
+    Settings(const std::string application_name);
     ~Settings() = default;
 
     std::string get(std::string key);
@@ -27,6 +29,8 @@ public:
 
 private:
     std::map<std::string, Setting> items;
+
+    std::string settings_file;
 
 };
 

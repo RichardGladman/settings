@@ -1,5 +1,23 @@
 #include <settings.h>
 
+Settings::Settings(const std::string application_name)
+{
+    std::string config_directory = getenv("HOME");
+    if (config_directory == "") {
+        config_directory = getpwuid(getuid())->pw_dir;
+    }
+
+    config_directory += "/.config/" + application_name + "/";
+
+    try {
+        std::filesystem::create_directory(config_directory);
+    } catch (const std::exception &e) {
+        std::cerr << e.what() << std::endl;
+    }
+
+    settings_file = config_directory + "settings.cfg";
+}
+
 std::string Settings::get(std::string key) {
     return items[key].get_value();
 }
@@ -11,7 +29,7 @@ void Settings::add(std::string key, std::string value) {
 bool Settings::load() 
 {
     std::ifstream in_stream;
-    in_stream.open(SETTINGS_FILE);
+    in_stream.open(settings_file);
 
     if (!in_stream) {
         return false;
@@ -36,7 +54,7 @@ bool Settings::load()
 bool Settings::save() 
 {
     std::ofstream out_stream;
-    out_stream.open(SETTINGS_FILE);
+    out_stream.open(settings_file);
 
     if (!out_stream) {
         return false;
