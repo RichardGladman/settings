@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.27)
 
-project(settings)
+project(settings VERSION 0.0.2)
 
 add_subdirectory(src)
 
