@@ -52,10 +52,10 @@ void input_settings(std::shared_ptr<Settings> settings)
 
     do {
         std::cout << "Enter setting name: ";
-        std::cin >> key;
+        getline(std::cin, key);
         if (key != "done") {
             std::cout << "Enter setting value: ";
-            std::cin >> value;
+            getline(std::cin, value);
             settings->add(key, value);
         }
 
