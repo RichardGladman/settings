@@ -5,7 +5,6 @@
 #include <string>
 #include <iostream>
 #include <fstream>
-#include <sstream>
 #include <pwd.h>
 #include <unistd.h>
 #include <filesystem>
@@ -28,6 +27,7 @@ public:
     bool save();
 
 private:
+    std::pair<std::string, std::string> split_first(const std::string to_split, const char split_on);
     std::map<std::string, Setting> items;
 
     std::string settings_file;

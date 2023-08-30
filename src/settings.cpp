@@ -26,6 +26,22 @@ void Settings::add(std::string key, std::string value) {
     items[key] = Setting {key, value};
 }
 
+std::pair<std::string, std::string> Settings::split_first(const std::string to_split, const char split_on)
+{
+    std::pair<std::string, std::string> splitted {};
+
+    int position = to_split.find(split_on);
+    if (position == std::string::npos) {
+        splitted.first = to_split;
+        splitted.second = to_split;
+    } else {
+        splitted.first = to_split.substr(0, position);
+        splitted.second = to_split.substr(position + 1);
+    }
+
+    return splitted;
+}
+
 bool Settings::load() 
 {
     std::ifstream in_stream;
@@ -36,13 +52,10 @@ bool Settings::load()
     }
 
     std::string line {};
-    std::string key {};
-    std::string value {};
 
     while (std::getline(in_stream, line)) {
-        std::stringstream str_stream(line);
-        str_stream >> key >> value;
-        add(key, value);
+        std::pair<std::string, std::string> key_value = split_first(line, '=');
+        add(key_value.first, key_value.second);
     }
 
     in_stream.close();
@@ -61,7 +74,7 @@ bool Settings::save()
     }
 
     for (auto const& [key, val]: items) {
-        out_stream << key << " " << val.get_value() << std::endl;
+        out_stream << key << "=" << val.get_value() << std::endl;
     }
 
     out_stream.close();
